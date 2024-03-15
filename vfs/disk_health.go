@@ -560,7 +560,8 @@ func (d *diskHealthCheckingFS) startTickerLocked() {
 				now := time.Now()
 				for i := range d.mu.inflight {
 					nanos := atomic.LoadInt64(&d.mu.inflight[i].startNanos)
-					if nanos != 0 && time.Unix(0, nanos).Add(d.diskSlowThreshold).Before(now) {
+					if nanos != 0 && time.Unix(0, nanos).Add(0).Before(now) {
+						// if nanos != 0 && time.Unix(0, nanos).Add(d.diskSlowThreshold).Before(now) {
 						// diskSlowThreshold was exceeded. Copy this inflightOp into
 						// exceededSlots and call d.onSlowDisk after dropping the mutex.
 						var inflightOp slot
